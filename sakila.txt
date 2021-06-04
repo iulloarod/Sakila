@@ -1,8 +1,8 @@
 1. ¿Qué consulta ejecutarías para obtener todos los clientes dentro de city_id = 312? Su consulta debe devolver el nombre, apellido, correo electrónico y dirección del cliente.
 
-select city.city_id, city.city, customer.first_name,customer.last_name, email, address.address  from customer
-join city on city.city_id = customer.customer_id
-join address on address.address_id = customer.customer_id
+select customer.first_name, customer.last_name, email, address from city
+join address on address.city_id = city.city_id
+join customer on customer.address_id = address.address_id
 where city.city_id = 312
 
 
@@ -26,7 +26,7 @@ where actor.actor_id = 5
 select store.store_id, city.city_id ,concat(customer.first_name, " ", customer.last_name), email, address.address from store
 join customer on customer.store_id = store.store_id
 join address on address.address_id = customer.address_id
-join city on city.city_id = address.address_id
+join city on city.city_id = address.city_id
 where store.store_id = 1
 and city.city_id in (1 , 42, 312, 459)
 
@@ -53,18 +53,20 @@ where film.film_id = 369
 
 select film.title, film.description,film.release_year,film.rating,film.special_features,category.name,film.rental_rate from film
 join film_category on film_category.film_id = film.film_id
-join category on category.category_id = film_category.film_id
-where film.rental_rate = 2.99
+join category on category.category_id = film_category.category_id
+where rental_rate = 2.99
+and category.name = "Drama"
 
 
 8. ¿Qué consulta harías para obtener todas las películas de acción a las que se une SANDRA KILMER? Su consulta debe devolver el título de la película, la descripción, el año de estreno, la calificación, las características especiales, el género (categoría) y el nombre y apellido del actor.
 
-select film.title, film.description, film.release_year, film.rating, film.special_features, category.name, concat(actor.first_name, " ",actor.last_name) as full_name from film
+select film.title, film.description,category.name, film.release_year, film.rating, film.special_features, category.name, concat(actor.first_name, " ",actor.last_name) as full_name from film
 join film_category on film_category.film_id = film.film_id
-join category on category.category_id = film_category.film_id
+join category on category.category_id = film_category.category_id
 join film_actor on film_actor.film_id = film.film_id
 join actor on actor.actor_id = film_actor.actor_id
 where actor.actor_id = 23
+and category.name = "Action"
 
 
 
